@@ -14,14 +14,14 @@ class Projectile():
         self.height = height
         self.dt = 0.005
         self.gravity = 9.81
-        self.mass = random.uniform(0.5, 1.5)
+        self.mass = random.uniform(0.2, 0.9)
         self.initial_angle = random.uniform(-90, 90)
         self.initial_speed = random.uniform(0, 100)
-        self.rebound_coefficient = random.uniform(0.100, 0.300)
+        self.rebound_coefficient = random.uniform(0.100, 0.900)
         self.colour = (
-            min(255, int(self.initial_speed * random.uniform(0.2, 0.5))),  
-            min(255, int(self.initial_speed * random.uniform(0.2, 0.5))),  
-            min(255, int(self.initial_speed * random.uniform(0.2, 0.5)))   
+            min(255, int(self.initial_speed * random.uniform(0.2, 0.9))),  
+            random.randint(0,50),  
+            random.randint(0,10)   
         )
         self.trajectory = self.__projectile_launch(x_reference, y_reference)
 
@@ -66,7 +66,7 @@ def main():
     pygame.display.set_caption("Projectile Launcher Simulator")
 
     running = True
-    projectiles = [Projectile(WIDTH, HEIGHT, x_reference, y_reference) for _ in range(50000)]
+    projectiles = [Projectile(WIDTH, HEIGHT, x_reference, y_reference) for _ in range(10000)]
 
     index = 0
     max_length = max(len(p.trajectory) for p in projectiles)
@@ -80,7 +80,7 @@ def main():
 
         for p in projectiles:
             if index < len(p.trajectory):
-                pygame.draw.circle(screen, p.colour, convert_coords(*p.trajectory[index]), int(p.mass * 2))
+                pygame.draw.circle(screen, p.colour, convert_coords(*p.trajectory[index]), int(p.mass * 3))
 
         index += 1
         if index >= max_length:
