@@ -5,6 +5,11 @@ import random
 
 pygame.init()
 
+initial_angle = random.randint(0,90)
+initial_speed = random.randint(1,100)
+mass = random.randint(1,10)
+coef_rebote_base = random.uniform(0.1, 0.7)
+
 WIDTH, HEIGHT = 800, 600
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("Projectile Launcher Simulator")
@@ -14,8 +19,6 @@ RED = (255, 0, 0)
 
 g = 9.81  # Gravity
 dt = 0.005  # Time step
-mass = 5  # Mass
-coef_rebote_base = 0.7  # Coeficiente de restitución base
 
 def convertir_coordenadas(x, y):
     return int(x), HEIGHT - int(y)
@@ -54,8 +57,6 @@ def lanzar_proyectil(velocidad, angulo):
 def main():
     running = True
 
-    initial_angle = 65
-    initial_speed = 70
     trayectoria = lanzar_proyectil(initial_speed, initial_angle)
     
     index = 0
