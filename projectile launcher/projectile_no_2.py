@@ -1,39 +1,35 @@
-import pygame
 import math
 import time
+import pygame
+import random
 
-# Inicializar pygame
 pygame.init()
 
-# Configuración de la pantalla
 WIDTH, HEIGHT = 800, 600
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Simulación de Lanzamiento de Proyectil")
+pygame.display.set_caption("Projectile Launcher Simulator")
 
-# Colores
 WHITE = (255, 255, 255)
 RED = (255, 0, 0)
 
-# Parámetros físicos
-g = 9.81  # Gravedad (m/s^2)
-dt = 0.005  # Paso de tiempo
-masa = 5  # Masa del proyectil en kg
+g = 9.81  # Gravity
+dt = 0.005  # Time step
+mass = 5  # Mass
 coef_rebote_base = 0.7  # Coeficiente de restitución base
 
-# Convertir coordenadas a las de pygame
 def convertir_coordenadas(x, y):
     return int(x), HEIGHT - int(y)
 
 def coef_rebote_masa(m):
     """Calcula un coeficiente de restitución dependiente de la masa"""
-    return max(0.4, coef_rebote_base - (m / 50))  # Evita coeficientes negativos
+    return max(0.4, coef_rebote_base - (m / 50))
 
 def lanzar_proyectil(velocidad, angulo):
     angulo_rad = math.radians(angulo)
     vx = velocidad * math.cos(angulo_rad)
     vy = velocidad * math.sin(angulo_rad)
     
-    x, y = 50, 50  # Posición inicial
+    x, y = 50, 50
     trayectoria = [(x, y)]
     
     while x < WIDTH:
@@ -43,10 +39,10 @@ def lanzar_proyectil(velocidad, angulo):
         
         if y <= 50:
             y = 50
-            coef_rebote = coef_rebote_masa(masa)  # Obtener coef. según masa
+            coef_rebote = coef_rebote_masa(mass)  # Obtener coef. según masa
             vy = -vy * coef_rebote
             
-            print(f"Masa: {masa} kg, Coef. de rebote: {coef_rebote:.2f}, Nueva velocidad: {vy:.2f} m/s")
+            print(f"Masa: {mass} kg, Coef. de rebote: {coef_rebote:.2f}, Nueva velocidad: {vy:.2f} m/s")
 
             if abs(vy) < 1:  # Condición de parada si la velocidad es muy baja
                 break
@@ -57,7 +53,10 @@ def lanzar_proyectil(velocidad, angulo):
 
 def main():
     running = True
-    trayectoria = lanzar_proyectil(70, 65)  # Velocidad de 70 m/s, ángulo de 80°
+
+    initial_angle = 65
+    initial_speed = 70
+    trayectoria = lanzar_proyectil(initial_speed, initial_angle)
     
     index = 0
     
@@ -69,7 +68,7 @@ def main():
                 running = False
         
         if index < len(trayectoria):
-            pygame.draw.circle(screen, RED, convertir_coordenadas(*trayectoria[index]), 10)
+            pygame.draw.circle(screen, RED, convertir_coordenadas(*trayectoria[index]), mass*2)
             index += 1
             time.sleep(dt/10)  # Reducir tiempo de espera para animación más fluida
         
