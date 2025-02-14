@@ -20,6 +20,7 @@ class Projectile():
         self.mass = random.randint(1,10)
         self.rebound_coefficient = random.uniform(0.1, 0.7)
         self.colour = (random.randint(0,255), random.randint(0,255), random.randint(0,255))
+        self.trajectory = self.projectile_launch()
 
     def convert_coords(self, x, y):
         return int(x), HEIGHT - int(y)
@@ -28,12 +29,12 @@ class Projectile():
         return max(0.4, self.rebound_coefficient - (self.mass / 50))
     
     def projectile_launch(self):
-        angulo_rad = math.radians(self.initial_angle)
-        vx = self.initial_speed * math.cos(angulo_rad)
-        vy = self.initial_speed * math.sin(angulo_rad)
+        rad_angle = math.radians(self.initial_angle)
+        vx = self.initial_speed * math.cos(rad_angle)
+        vy = self.initial_speed * math.sin(rad_angle)
         
         x, y = 50, 50
-        trayectoria = [(x, y)]
+        coordinates_trajectory = [(x, y)]
         
         while x < WIDTH:
             x += vx * dt
@@ -42,25 +43,24 @@ class Projectile():
             
             if y <= 50:
                 y = 50
-                coef_rebote = self.rebound_mass_coef()
-                vy = -vy * coef_rebote
+                rebound_coef = self.rebound_mass_coef()
+                vy = -vy * rebound_coef
                 
-                print(f"Masa: {self.mass} kg, Coef. de rebote: {coef_rebote:.2f}, Nueva velocidad: {vy:.2f} m/s")
+                print(f"Masa: {self.mass} kg, Coef. de rebote: {rebound_coef:.2f}, Nueva velocidad: {vy:.2f} m/s")
 
                 if abs(vy) < 1:  # Condición de parada si la velocidad es muy baja
                     break
             
-            trayectoria.append((x, y))
+            coordinates_trajectory.append((x, y))
         
-        return trayectoria
+        return coordinates_trajectory
     
 
 def main():
     running = True
 
     proyectile = Projectile()
-    trajectory = proyectile.projectile_launch()
-    
+
     index = 0
     
     while running:
@@ -70,14 +70,15 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
         
-        if index < len(trajectory):
-            pygame.draw.circle(screen, proyectile.colour, Projectile.convert_coords(*trajectory[index]), proyectile.mass*2)
-            index += 1
-            time.sleep(dt/10)  # Reducir tiempo de espera para animación más fluida
+        if index < len(proyectile.trajectory):
+            print(proyectile.trajectory[index])
+            # pygame.draw.circle(screen, proyectile.colour, Projectile.convert_coords(*proyectile.trajectory[index]), proyectile.mass*2)
+            # index += 1
+            # time.sleep(dt/10)  # Reducir tiempo de espera para animación más fluida
         
-        pygame.display.flip()
+        # pygame.display.flip()
         
-    pygame.quit()
+    # pygame.quit()
 
 if __name__ == "__main__":
     main()
