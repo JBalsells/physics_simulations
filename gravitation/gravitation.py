@@ -51,7 +51,7 @@ p2.dx=0.01
 planets.append(p1)
 planets.append(p2)
 
-for i in range(150):
+for i in range(50):
     p=planet(random.randint(50,width-50),random.randint(50,height-50),random.randint(1000,10000),5)
     planets.append(p)
 def R_area(p,q):
