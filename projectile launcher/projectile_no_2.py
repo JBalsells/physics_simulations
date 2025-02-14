@@ -5,10 +5,10 @@ import random
 
 pygame.init()
 
-initial_angle = random.randint(0,90)
-initial_speed = random.randint(1,100)
-mass = random.randint(1,10)
-coef_rebote_base = random.uniform(0.1, 0.7)
+initial_angle = 45
+initial_speed = 70
+mass = 5
+coef_rebote_base = 0.7
 
 WIDTH, HEIGHT = 800, 600
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -57,7 +57,8 @@ def lanzar_proyectil(velocidad, angulo):
 def main():
     running = True
 
-    trayectoria = lanzar_proyectil(initial_speed, initial_angle)
+    trayectori = lanzar_proyectil(initial_speed, initial_angle)
+    print(trayectori)
     
     index = 0
     
@@ -68,8 +69,8 @@ def main():
             if event.type == pygame.QUIT:
                 running = False
         
-        if index < len(trayectoria):
-            pygame.draw.circle(screen, RED, convertir_coordenadas(*trayectoria[index]), mass*2)
+        if index < len(trayectori):
+            pygame.draw.circle(screen, RED, convertir_coordenadas(*trayectori[index]), mass*2)
             index += 1
             time.sleep(dt/10)  # Reducir tiempo de espera para animación más fluida
         
