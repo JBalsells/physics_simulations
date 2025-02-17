@@ -66,7 +66,7 @@ def convert_coords(x, y):
 
 def main():
     pygame.init()
-    screen = pygame.FULLSCREEN
+    screen = pygame.display.set_mode((WIDTH, HEIGHT))
     pygame.display.set_caption("Projectile Launcher Simulator")
 
     running = True
