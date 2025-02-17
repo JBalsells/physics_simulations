@@ -10,19 +10,23 @@ y_reference = 50
 
 class Projectile():
     def __init__(self, width, height, x_reference, y_reference):
+        
+        mu_speed = 50
+        sigma_speed = 20
+
+        mu_mass = 0.7
+        sigma_mass = 0.5
+
         self.width = width
         self.height = height
         self.dt = 0.005
         self.gravity = 9.81
-        self.mass = random.uniform(0.2, 0.9)
+        self.mass = random.gauss(mu_mass, sigma_mass)
         self.initial_angle = random.uniform(-90, 90)
-        self.initial_speed = random.uniform(0, 100)
-        self.rebound_coefficient = random.uniform(0.100, 0.900)
-        self.colour = (
-            min(255, int(self.initial_speed * random.uniform(0.2, 0.9))),  
-            random.randint(0,50),  
-            random.randint(0,10)   
-        )
+        self.initial_speed = random.gauss(mu_speed, sigma_speed)
+        self.rebound_coefficient = random.gauss(0.5, 0.4)
+        self.colour = (255,150,50)
+
         self.trajectory = self.__projectile_launch(x_reference, y_reference)
 
     def __rebound_mass_coef(self):
@@ -62,11 +66,11 @@ def convert_coords(x, y):
 
 def main():
     pygame.init()
-    screen = pygame.display.set_mode((WIDTH, HEIGHT))
+    screen = pygame.FULLSCREEN
     pygame.display.set_caption("Projectile Launcher Simulator")
 
     running = True
-    projectiles = [Projectile(WIDTH, HEIGHT, x_reference, y_reference) for _ in range(10000)]
+    projectiles = [Projectile(WIDTH, HEIGHT, x_reference, y_reference) for _ in range(50)]
 
     index = 0
     max_length = max(len(p.trajectory) for p in projectiles)
