@@ -1,4 +1,3 @@
-import time
 import math
 import pygame
 import random
@@ -11,19 +10,19 @@ y_reference = 50
 class Projectile():
     def __init__(self, width, height, x_reference, y_reference):
         mu_speed = 50
-        sigma_speed = 20
+        sigma_speed = 10
 
         mu_mass = 0.7
-        sigma_mass = 0.5
+        sigma_mass = 0.2
 
         self.width = width
         self.height = height
-        self.dt = 0.005
+        self.dt = 0.1
         self.gravity = 9.81
         self.mass = random.gauss(mu_mass, sigma_mass)
         self.initial_angle = random.uniform(-90, 90)
         self.initial_speed = random.gauss(mu_speed, sigma_speed)
-        self.friction = random.gauss(0.5, 0.1)
+        self.friction = random.gauss(0.8, 0.1)
         self.colour = (0, 0, 0)
 
         self.trajectory = self.__projectile_launch(x_reference, y_reference)
