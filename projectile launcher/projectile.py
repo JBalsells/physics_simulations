@@ -1,36 +1,31 @@
-import time
 import math
 import pygame
 import random
 
 WHITE = (255, 255, 255)
 WIDTH, HEIGHT = 3200, 800
-x_reference = WIDTH/2
+x_reference = WIDTH / 2
 y_reference = 50
 
 class Projectile():
     def __init__(self, width, height, x_reference, y_reference):
-        
         mu_speed = 50
-        sigma_speed = 20
+        sigma_speed = 10
 
         mu_mass = 0.7
-        sigma_mass = 0.5
+        sigma_mass = 0.2
 
         self.width = width
         self.height = height
-        self.dt = 0.005
+        self.dt = 0.1
         self.gravity = 9.81
         self.mass = random.gauss(mu_mass, sigma_mass)
         self.initial_angle = random.uniform(-90, 90)
         self.initial_speed = random.gauss(mu_speed, sigma_speed)
-        self.rebound_coefficient = random.gauss(0.5, 0.4)
-        self.colour = (255,150,50)
+        self.friction = random.gauss(0.8, 0.1)
+        self.colour = (0, 0, 0)
 
         self.trajectory = self.__projectile_launch(x_reference, y_reference)
-
-    def __rebound_mass_coef(self):
-        return max(0.4, self.rebound_coefficient - (self.mass / 50))
 
     def __projectile_launch(self, x, y):
         rad_angle = math.radians(abs(self.initial_angle))
@@ -49,11 +44,11 @@ class Projectile():
 
             if y <= 50:
                 y = 50
-                rebound_coef = self.__rebound_mass_coef()
-                vy = -vy * rebound_coef
-
-                print(f"Masa: {self.mass:.2f} kg, Ángulo: {self.initial_angle}°, Coef. de rebote: {rebound_coef:.2f}, Nueva velocidad: {vy:.2f} m/s")
-
+                friction_effect = 1 - (self.friction * (self.mass / 10))  # Fricción depende de la masa
+                vy = -vy * max(0, friction_effect)  # Evita valores negativos
+                
+                print(f"Masa: {self.mass:.2f} kg, Ángulo: {self.initial_angle}°, Fricción: {self.friction:.2f}, Nueva velocidad: {vy:.2f} m/s")
+                
                 if abs(vy) < 1:
                     break
 
@@ -70,7 +65,7 @@ def main():
     pygame.display.set_caption("Projectile Launcher Simulator")
 
     running = True
-    projectiles = [Projectile(WIDTH, HEIGHT, x_reference, y_reference) for _ in range(50)]
+    projectiles = [Projectile(WIDTH, HEIGHT, x_reference, y_reference) for _ in range(1000)]
 
     index = 0
     max_length = max(len(p.trajectory) for p in projectiles)
@@ -90,7 +85,6 @@ def main():
         if index >= max_length:
             break
 
-        # time.sleep(0.0001)
         pygame.display.flip()
 
     pygame.quit()
