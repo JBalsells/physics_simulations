@@ -1,46 +1,51 @@
 import pygame
 import math
 
-# Configuración inicial
-WIDTH, HEIGHT = 800, 400
 WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
 
-# Propiedades del resorte
-k = 0.1  # Constante del resorte
-mass = 5  # Masa del objeto
-damping = 0.99  # Amortiguamiento
-x_equilibrium = WIDTH // 2  # Posición de equilibrio
-displacement = 100  # Desplazamiento inicial
-velocity = 0  # Velocidad inicial
+class Hooke():
 
-def hooke_force(x):
-    return -k * x  # Ley de Hooke
+    def __init__(self, width, height):
+        self.WIDTH = width
+        self.HEIGHT = height
+        self.COLOR = (0, 0, 0)
+
+        self.k = 0.1
+        self.mass = 5
+        self.damping = 0.99
+        self.x_equilibrium = self.WIDTH // 2
+        self.displacement = 100
+        self.velocity = 0
+
+        self.force = self.hooke_force(self.displacement)
+
+        self.acceleration = self.force / self.mass
+
+    def hooke_force(self, x):
+        return -self.k * x
 
 def main():
-    global displacement, velocity
     pygame.init()
+
+    info = pygame.display.Info()
+    WIDTH = info.current_h
+    HEIGHT = info.current_w
+
     screen = pygame.display.set_mode((WIDTH, HEIGHT))
     clock = pygame.time.Clock()
-    running = True
     
-    while running:
+    while True:
         screen.fill(WHITE)
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                running = False
-                
-        # Aplicar la Ley de Hooke y actualizar la física
-        force = hooke_force(displacement)
-        acceleration = force / mass
-        velocity += acceleration
-        velocity *= damping  # Aplicar amortiguamiento
-        displacement += velocity
-        
-        # Dibujar el resorte
-        ball_x = int(x_equilibrium + displacement)
-        pygame.draw.line(screen, BLACK, (x_equilibrium, HEIGHT // 2), (ball_x, HEIGHT // 2), 5)
-        pygame.draw.circle(screen, BLACK, (ball_x, HEIGHT // 2), 20)
+
+        h = Hooke(WIDTH, HEIGHT)
+
+        h.velocity += h.acceleration
+        h.velocity *= h.damping
+        h.displacement += h.velocity
+
+        ball_x = int(h.x_equilibrium + h.displacement)
+        pygame.draw.line(screen, h.COLOR, (h.x_equilibrium, HEIGHT // 2), (ball_x, HEIGHT // 2), 5)
+        pygame.draw.circle(screen, h.COLOR, (ball_x, HEIGHT // 2), 20)
         
         pygame.display.flip()
         clock.tick(60)
