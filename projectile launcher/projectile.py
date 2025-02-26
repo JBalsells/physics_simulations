@@ -1,6 +1,8 @@
 import math
 import pygame
 import random
+import sys
+sys.setrecursionlimit(5000)
 
 WHITE = (255, 255, 255)
 WIDTH, HEIGHT = 3200, 800
@@ -25,7 +27,7 @@ class Projectile():
         self.friction = random.gauss(0.8, 0.1)
         self.colour = (0, 0, 0)
 
-        self.trajectory = self.__projectile_launch(x_reference, y_reference)
+        self.trajectory = self.__recursive_projectile_launch(x_reference, y_reference)
 
     def __projectile_launch(self, x, y):
         rad_angle = math.radians(abs(self.initial_angle))
@@ -55,6 +57,42 @@ class Projectile():
             coordinates_trajectory.append((x, y))
 
         return coordinates_trajectory
+
+    def __recursive_projectile_launch(self, x, y, vx=None, vy=None, trajectory=None):
+        if trajectory is None:
+            trajectory = [(x, y)]
+            rad_angle = math.radians(abs(self.initial_angle))
+            vx = self.initial_speed * math.cos(rad_angle)
+            vy = self.initial_speed * math.sin(rad_angle)
+
+            if self.initial_angle < 0:
+                vx = -vx  
+
+        # Condición de parada: si el proyectil sale del ancho del espacio o la velocidad es demasiado baja
+        if not (0 < x < self.width):
+            return trajectory
+
+        # Actualizar posición
+        x += vx * self.dt
+        vy -= self.gravity * self.dt
+        y += vy * self.dt
+
+        # Si toca el suelo
+        if y <= 50:
+            y = 50
+            friction_effect = 1 - (self.friction * (self.mass / 10))
+            vy = -vy * max(0, friction_effect)
+
+            print(f"Masa: {self.mass:.2f} kg, Ángulo: {self.initial_angle}°, Fricción: {self.friction:.2f}, Nueva velocidad: {vy:.2f} m/s")
+
+            # Condición de parada si la velocidad es muy baja
+            if abs(vy) < 1:
+                return trajectory
+
+        # Agregar la nueva posición a la trayectoria
+        trajectory.append((x, y))
+
+        return self.__recursive_projectile_launch(x, y, vx, vy, trajectory)
 
 def convert_coords(x, y):
     return int(x), HEIGHT - int(y)
