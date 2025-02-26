@@ -44,8 +44,8 @@ class Projectile():
 
             if y <= 50:
                 y = 50
-                friction_effect = 1 - (self.friction * (self.mass / 10))  # Fricción depende de la masa
-                vy = -vy * max(0, friction_effect)  # Evita valores negativos
+                friction_effect = 1 - (self.friction * (self.mass / 10))
+                vy = -vy * max(0, friction_effect)
                 
                 print(f"Masa: {self.mass:.2f} kg, Ángulo: {self.initial_angle}°, Fricción: {self.friction:.2f}, Nueva velocidad: {vy:.2f} m/s")
                 
