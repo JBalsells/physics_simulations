@@ -7,7 +7,7 @@ class Planeta:
 
     def volumen(self):
         from math import pi
-        return (4/3) * pi * (self.radio_km * 1000) ** 3  # Convertimos km a metros
+        return (4/3) * pi * (self.radio_km * 1000) ** 3
 
     def densidad(self):
         return self.masa_kg / self.volumen()
@@ -40,10 +40,11 @@ class PlanetaGaseoso(Planeta):
         print(f" Gas Principal: {self.tipo_gas_principal}\n")
 
 
-tierra = PlanetaRocoso("Tierra", radio_km=6371, masa_kg=5.97e24, gravedad_m_s2=9.81, tiene_atmosfera=True)
-marte = PlanetaRocoso("Marte", radio_km=3389, masa_kg=6.39e23, gravedad_m_s2=3.71, tiene_atmosfera=True)
-jupiter = PlanetaGaseoso("Júpiter", radio_km=69911, masa_kg=1.90e27, gravedad_m_s2=24.79, tipo_gas_principal="Hidrógeno")
+if __name__ == "__main__":
+    tierra = PlanetaRocoso("Tierra", radio_km=6371, masa_kg=5.97e24, gravedad_m_s2=9.81, tiene_atmosfera=True)
+    marte = PlanetaRocoso("Marte", radio_km=3389, masa_kg=6.39e23, gravedad_m_s2=3.71, tiene_atmosfera=True)
+    jupiter = PlanetaGaseoso("Júpiter", radio_km=69911, masa_kg=1.90e27, gravedad_m_s2=24.79, tipo_gas_principal="Hidrógeno")
 
-tierra.mostrar_info()
-marte.mostrar_info()
-jupiter.mostrar_info()
+    tierra.mostrar_info()
+    marte.mostrar_info()
+    jupiter.mostrar_info()

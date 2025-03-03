@@ -51,26 +51,25 @@ class Julia(Fractal):
         
         return julia_set
 
-# Usar el mismo número complejo c para ambos conjuntos
-c = -0.7 + 0.6j
-xmin, xmax, ymin, ymax = -2.0, 1.0, -1.5, 1.5
-width, height = 500, 500
-max_iter = 100
+if __name__ == "__main__":
+    c = -0.7 + 0.6j
+    xmin, xmax, ymin, ymax = -2.0, 1.0, -1.5, 1.5
+    width, height = 500, 500
+    max_iter = 100
 
-# Generar conjunto Mandelbrot con un punto fijo c
-mandelbrot = Mandelbrot(xmin, xmax, ymin, ymax, width, height, max_iter)
-mandelbrot_image = mandelbrot.generate(c)
+    # Generar conjunto Mandelbrot con un punto fijo c
+    mandelbrot = Mandelbrot(xmin, xmax, ymin, ymax, width, height, max_iter)
+    mandelbrot_image = mandelbrot.generate(c)
 
-# Generar conjunto Julia con el mismo valor de c
-julia = Julia(xmin, xmax, ymin, ymax, width, height, max_iter, c)
-julia_image = julia.generate()
+    # Generar conjunto Julia con el mismo valor de c
+    julia = Julia(xmin, xmax, ymin, ymax, width, height, max_iter, c)
+    julia_image = julia.generate()
 
-# Mostrar las imágenes
-plt.figure(figsize=(12, 6))
-plt.subplot(1, 2, 1)
-plt.imshow(mandelbrot_image, cmap='hot', extent=(xmin, xmax, ymin, ymax))
-plt.title("Mandelbrot Set with c = {}".format(c))
-plt.subplot(1, 2, 2)
-plt.imshow(julia_image, cmap='hot', extent=(xmin, xmax, ymin, ymax))
-plt.title("Julia Set with c = {}".format(c))
-plt.show()
+    plt.figure(figsize=(12, 6))
+    plt.subplot(1, 2, 1)
+    plt.imshow(mandelbrot_image, cmap='hot', extent=(xmin, xmax, ymin, ymax))
+    plt.title("Mandelbrot Set with c = {}".format(c))
+    plt.subplot(1, 2, 2)
+    plt.imshow(julia_image, cmap='hot', extent=(xmin, xmax, ymin, ymax))
+    plt.title("Julia Set with c = {}".format(c))
+    plt.show()
