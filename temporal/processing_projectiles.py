@@ -7,7 +7,7 @@ import multiprocessing
 sys.setrecursionlimit(50000)
 
 WHITE = (255, 255, 255)
-WIDTH, HEIGHT = 3200, 800
+WIDTH, HEIGHT = 800, 600
 x_reference = WIDTH / 2
 y_reference = 50
 num_projectiles = 10000
