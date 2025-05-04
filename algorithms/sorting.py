@@ -52,7 +52,7 @@ def quick_sort(arr):
     return quick_sort(left) + middle + quick_sort(right)
 
 if __name__ == "__main__":
-    n = 5000
+    n = 20000
     array = [random.randint(0, 10000) for _ in range(n)]
 
     # Quick Sort
@@ -72,3 +72,4 @@ if __name__ == "__main__":
     radix_sorted_array = radix_sort(array)
     end = time.time()
     print(f"⚡ Radix Sort time: {end - start:.6f} seconds")
+ 

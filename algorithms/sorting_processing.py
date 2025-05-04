@@ -1,5 +1,5 @@
 import time
-import random
+import random 
 from multiprocessing import Process, current_process
 
 def time_measurement(func):
@@ -77,8 +77,9 @@ def quick_sort(arr): # funcion de envoltorio
 def radix_sort(arr):
     return radix_sort_algorithm(arr)
 
+    
 if __name__ == "__main__":
-    n = 10000
+    n = 20000
     array = [random.randint(0, 10000) for _ in range(n)]
 
     arr_bubble = array.copy()

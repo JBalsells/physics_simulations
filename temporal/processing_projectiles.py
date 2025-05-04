@@ -10,7 +10,7 @@ WHITE = (255, 255, 255)
 WIDTH, HEIGHT = 800, 600
 x_reference = WIDTH / 2
 y_reference = 50
-num_projectiles = 10000
+num_projectiles = 100000
 
 class Projectile:
     def __init__(self, width, height, x_reference, y_reference):
